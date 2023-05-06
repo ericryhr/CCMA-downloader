@@ -1,6 +1,7 @@
 import os
 import subprocess
 import sys
+from time import sleep
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
@@ -11,12 +12,12 @@ def Usage():
     print("Usage: $python SX3_downloader.py urlsFile")
     exit(1)
 
-def NavigateUrl(url):
+def NavigateUrl(url, cookieDismiss = False):
     print("Accedint a la web...")
     driver.get(url)
 
     #Cookies dismiss
-    if i == 0:
+    if cookieDismiss:
         acceptCookiesButton = driver.find_element(By.ID, "didomi-notice-agree-button")
         acceptCookiesButton.click()
 
@@ -24,7 +25,7 @@ def NavigateUrl(url):
     print("Clicant al play...")
     playButtonXPath = "//div[@aria-label='Reprodueix']"
     try:
-        playButton = WebDriverWait(driver, 10).until(expected_conditions.presence_of_element_located((By.XPATH, playButtonXPath)))
+        WebDriverWait(driver, 10).until(expected_conditions.presence_of_element_located((By.XPATH, playButtonXPath)))
     except Exception as e:
         print(e.msg)
 
@@ -60,22 +61,27 @@ driver = webdriver.Chrome(options=options)
 for i in range(0, len(urls)):
     numberAttempts = 0
     url = urls[i]
-    NavigateUrl(url)
+    
+    if i == 0: NavigateUrl(url, True)
+    else: NavigateUrl(url)
+
     titol = GetTitol()
 
     while numberAttempts < 10:
         mpdUrl = FindLink()
         del driver.requests
         if mpdUrl == None:
-            print("No s'ha trobat link mpd per " + titol + ". Ho intentem per intent " + str(numberAttempts))
+            print("No s'ha trobat link mpd per " + titol + " a l'intent " + str(numberAttempts + 1))
+            sleep(5)
             numberAttempts = numberAttempts + 1
+            NavigateUrl(url)
         else:
+            print("Descarregant " + titol + " de " + mpdUrl)
+            subprocess.call(["youtube-dl", mpdUrl], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            if not os.path.exists("./output/"):
+                os.mkdir("./output/")
+            os.rename("./stream-stream.mp4", "./output/" + titol + ".mp4")
             break
 
-    print("Descarregant " + titol + " de " + mpdUrl)
-    subprocess.call(["youtube-dl", mpdUrl], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    if not os.path.exists("./output/"):
-        os.mkdir("./output/")
-    os.rename("./stream-stream.mp4", "./output/" + titol + ".mp4")
-
+    
 driver.quit()
