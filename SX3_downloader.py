@@ -11,29 +11,9 @@ def Usage():
     print("Usage: $python SX3_downloader.py urlsFile")
     exit(1)
 
-def FindLink():
-    for request in driver.requests:
-        if request.response:
-            if request.url.find('adaptive') != -1:
-                url = request.url
-                mpd = url.split("sprites")[0] + "stream.mpd"
-                return mpd
-
-if len(sys.argv) != 2:
-    Usage()
-
-fileName = sys.argv[1]
-file = open(fileName)
-urls = file.read().split('\n')
-
-#Driver setup
-options = webdriver.ChromeOptions()
-options.add_argument('headless')
-driver = webdriver.Chrome(options=options)
-
-for i in range(0, len(urls)):
+def NavigateUrl(url):
     print("Accedint a la web...")
-    driver.get(urls[i])
+    driver.get(url)
 
     #Cookies dismiss
     if i == 0:
@@ -49,15 +29,49 @@ for i in range(0, len(urls)):
         print(e.msg)
 
     print("Buscant el link...")
+
+def FindLink():
+    for request in driver.requests:
+        if request.response:
+            if request.url.find('adaptive') != -1:
+                url = request.url
+                mpd = url.split("sprites")[0] + "stream.mpd"
+                return mpd
+            
+def GetTitol():
     titol = driver.find_element(By.XPATH, "//h1[@class='titolMedia']").text
     titol = titol.replace('\"', '')
     titol = titol.replace('?', '')
     titol = titol.replace(':', '')
-    mpdUrl = FindLink()
-    del driver.requests
-    if mpdUrl == None:
-        print("No s'ha trobat link mpd per " + titol)
-        continue
+    return titol
+
+if len(sys.argv) != 2:
+    Usage()
+
+fileName = sys.argv[1]
+file = open(fileName)
+urls = file.read().split('\n')
+
+#Driver setup
+options = webdriver.ChromeOptions()
+options.add_argument('headless')
+driver = webdriver.Chrome(options=options)
+
+for i in range(0, len(urls)):
+    numberAttempts = 0
+    url = urls[i]
+    NavigateUrl(url)
+    titol = GetTitol()
+
+    while numberAttempts < 10:
+        mpdUrl = FindLink()
+        del driver.requests
+        if mpdUrl == None:
+            print("No s'ha trobat link mpd per " + titol + ". Ho intentem per intent " + str(numberAttempts))
+            numberAttempts = numberAttempts + 1
+        else:
+            break
+
     print("Descarregant " + titol + " de " + mpdUrl)
     subprocess.call(["youtube-dl", mpdUrl], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     if not os.path.exists("./output/"):
