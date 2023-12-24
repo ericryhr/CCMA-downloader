@@ -77,10 +77,10 @@ for i in range(0, len(urls)):
             NavigateUrl(url)
         else:
             print("Descarregant " + titol + " de " + mpdUrl)
-            subprocess.call(["youtube-dl", mpdUrl], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             if not os.path.exists("./output/"):
                 os.mkdir("./output/")
-            os.rename("./stream-stream.mp4", "./output/" + titol + ".mp4")
+            subprocess.call(["youtube-dl", mpdUrl, '-o', f'./output/{titol}'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            # os.rename("./stream-stream.mp4", "./output/" + titol + ".mp4")
             break
 
     

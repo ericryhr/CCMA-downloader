@@ -1,4 +1,5 @@
-urls.txt
+*.txt
 /output
 *.part
 *.ytdl
+canvi_noms.py
