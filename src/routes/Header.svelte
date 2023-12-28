@@ -1,29 +1,28 @@
 <script>
 	import { page } from '$app/stores';
-	import logo from '$lib/images/svelte-logo.svg';
 	import github from '$lib/images/github.svg';
+	import sx3 from '$lib/images/sx3_colorBgNegre.svg';
+	import tv3 from '$lib/images/3cat_color.svg';
 </script>
 
-<header>
+<header class="show-border">
 	<div class="corner">
-		<a href="https://kit.svelte.dev">
-			<img src={logo} alt="SvelteKit" />
-		</a>
 	</div>
 
-	<nav>
+	<nav class="show-border">
 		<svg viewBox="0 0 2 3" aria-hidden="true">
 			<path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" />
 		</svg>
 		<ul>
-			<li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
-				<a href="/">Home</a>
+			<li aria-current={$page.url.pathname === '/sx3' ? 'page' : undefined}>
+				<a href="/sx3">
+					<img src={sx3} alt="SX3"/>
+				</a>
 			</li>
-			<li aria-current={$page.url.pathname === '/about' ? 'page' : undefined}>
-				<a href="/about">About</a>
-			</li>
-			<li aria-current={$page.url.pathname.startsWith('/sverdle') ? 'page' : undefined}>
-				<a href="/sverdle">Sverdle</a>
+			<li aria-current={$page.url.pathname === '/3cat' ? 'page' : undefined}>
+				<a href="/3cat">
+					<img src={tv3} alt="3Cat"/>
+				</a>
 			</li>
 		</ul>
 		<svg viewBox="0 0 2 3" aria-hidden="true">
@@ -32,7 +31,7 @@
 	</nav>
 
 	<div class="corner">
-		<a href="https://github.com/sveltejs/kit">
+		<a href="https://github.com/ericryhr">
 			<img src={github} alt="GitHub" />
 		</a>
 	</div>
@@ -121,6 +120,10 @@
 		letter-spacing: 0.1em;
 		text-decoration: none;
 		transition: color 0.2s linear;
+	}
+
+	nav img {
+		max-height: 2em;
 	}
 
 	a:hover {
