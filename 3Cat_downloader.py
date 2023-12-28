@@ -11,11 +11,13 @@ if len(sys.argv) != 2:
 
 fileName = sys.argv[1]
 file = open(fileName)
-urls = file.readlines()
+lines = file.readlines()
 
-for i, mpdUrl in enumerate(urls):
-    mpdUrl = mpdUrl.strip()
-    titol = f"{i}_{mpdUrl.split('/')[-3]}"
+for i, line in enumerate(lines):
+    line = line.strip().split()
+    mpdUrl = line[0]
+    titol = line[1]
+    # titol = f"{i}_{mpdUrl.split('/')[-3]}"
     print("Descarregant " + titol + " de " + mpdUrl)
     if not os.path.exists("./output/"):
         os.mkdir("./output/")

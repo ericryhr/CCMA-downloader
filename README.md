@@ -16,3 +16,15 @@ ffmpeg
 
 PD: De moment funciona perquè hi ha un fitxer sprite.vtt amb la mateixa url que el link .mpd que
 necessita el youtube-dl per obtenir el vídeo. Esperem que no ho canvïin en el futur
+
+----------------------------------------------------------------
+
+3Cat Downloader
+
+- Buscar vídeo a descarregar
+- F12 al navegador (inspeccionar) -> Network -> Buscar un .mpd (si no apareix recarregar la pàgina i fer play al vídeo)
+- Enganxar enllaç a urls.txt
+- Per executar clic dret a la carpeta -> Obrir al terminal
+- wsl
+- python 3Cat_downloader.py urls.txt
+- Reanomenar fitxers i moure al Plex
