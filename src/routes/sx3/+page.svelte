@@ -12,10 +12,10 @@
     <form on:submit|preventDefault={handleSubmit}>
         <label for="textInput">Enter Text:</label>
         <input
-        type="text"
-        id="textInput"
-        bind:value={userInput}
-        placeholder="Type something..."
+            type="text"
+            id="textInput"
+            bind:value={userInput}
+            placeholder="Type something..."
         />
 
         <button type="submit">Confirm</button>

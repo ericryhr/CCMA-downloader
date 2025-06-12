@@ -1,12 +1,16 @@
 <script>
 	import { page } from '$app/stores';
 	import github from '$lib/images/github.svg';
+	import home from '$lib/images/Home-icon.svg';
 	import sx3 from '$lib/images/sx3_colorBgNegre.svg';
 	import tv3 from '$lib/images/3cat_color.svg';
 </script>
 
 <header class="show-border">
 	<div class="corner">
+		<a href="/">
+			<img src={home} alt="Home"/>
+		</a>
 	</div>
 
 	<nav class="show-border">
@@ -65,7 +69,7 @@
 	nav {
 		display: flex;
 		justify-content: center;
-		--background: rgba(255, 255, 255, 0.7);
+		--background: rgba(107, 116, 196, 0.7);
 	}
 
 	svg {

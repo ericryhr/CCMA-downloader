@@ -1,5 +1,5 @@
 *.txt
-/output
+output/
 *.part
 *.ytdl
 canvi_noms.py

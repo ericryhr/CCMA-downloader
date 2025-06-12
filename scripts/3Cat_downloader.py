@@ -14,7 +14,7 @@ file = open(fileName)
 lines = file.readlines()
 
 for i, line in enumerate(lines):
-    line = line.strip().split()
+    line = line.strip().split(maxsplit=1)
     mpdUrl = line[0]
     titol = line[1]
     # titol = f"{i}_{mpdUrl.split('/')[-3]}"
